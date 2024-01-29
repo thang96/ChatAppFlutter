@@ -17,7 +17,7 @@ class ProfileScreen {
   }
 
   _mainScreen(BuildContext context) {
-    final user = FireBases.auth.currentUser!;
+    final user = FireBases.me;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -32,20 +32,10 @@ class ProfileScreen {
         backgroundColor: Colors.red.shade300,
         onPressed: _main.logoutAccount,
         child: Center(
-            child: Container(
-                height: 40.dp,
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.login,
-                      color: Colors.white,
-                    ),
-                    Text(
-                      'Logout',
-                      style: TextStyle(color: Colors.white),
-                    )
-                  ],
-                ))),
+            child: Icon(
+          Icons.login,
+          color: Colors.white,
+        )),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -56,55 +46,39 @@ class ProfileScreen {
               child: Stack(
                 children: [
                   Container(
-                    height: 300,
+                    height: 190,
                     child: Column(
                       children: [
                         _main.vm.userAvatar != ''
                             ? ClipRRect(
-                          borderRadius: BorderRadius.circular(150.dp),
-                          child: Image.file(
-                            File('${_main.vm.userAvatar}'),
-                            width: 150.dp,
-                            height: 150.dp,
-                            fit: BoxFit.cover,
-                          ),
-                        )
+                                borderRadius: BorderRadius.circular(150.dp),
+                                child: Image.file(
+                                  File('${_main.vm.userAvatar}'),
+                                  width: 150.dp,
+                                  height: 150.dp,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
                             : CachedNetworkImage(
-                          imageUrl: '${user.photoURL.toString()}',
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 150.dp,
-                            height: 150.dp,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(150.dp),
-                              image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.white, BlendMode.colorBurn)),
-                            ),
-                          ),
-                          placeholder: (context, url) =>
-                              CircularProgressIndicator(),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-                        CachedNetworkImage(
-                          imageUrl: '${user.photoURL.toString()}',
-                          imageBuilder: (context, imageProvider) => Container(
-                            width: 150.dp,
-                            height: 150.dp,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(150.dp),
-                              image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.white, BlendMode.colorBurn)),
-                            ),
-                          ),
-                          placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                        ),
+                                imageUrl: '${user.avatar}',
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  width: 150.dp,
+                                  height: 150.dp,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(150.dp),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                        colorFilter: ColorFilter.mode(
+                                            Colors.white, BlendMode.colorBurn)),
+                                  ),
+                                ),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
                       ],
                     ),
                   ),
@@ -140,7 +114,7 @@ class ProfileScreen {
             ),
             Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.dp),
-                child: InputForm(_context, 'Username', '${user.displayName}',
+                child: InputForm(_context, 'Username', '${user.username}',
                     _main.vm.usernameController, true, () {}, true)),
             Padding(
               padding: const EdgeInsets.all(8.0),

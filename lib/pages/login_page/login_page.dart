@@ -29,6 +29,7 @@ class LoginState extends BaseCreen<LoginPage, LoginViewModel> {
   void loginWithGoogle() {
     Dialogs.showProgressBar(context);
     _signInWithGoogle().then((user) async {
+      print('$user ---------------------------');
       if (user != null) {
         if (await FireBases.isUserExist()) {
           Navigator.pop(context);
@@ -59,23 +60,30 @@ class LoginState extends BaseCreen<LoginPage, LoginViewModel> {
 
   Future<UserCredential?> _signInWithGoogle() async {
     try {
-      await InternetAddress.lookup('google.com');
+      // await InternetAddress.lookup('google.com');
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
+      if(googleUser == null){
+        return null;
+      }else{
+        // Obtain the auth details from the request
+        final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
 
-      // Once signed in, return the UserCredential
-      return await FireBases.auth.signInWithCredential(credential);
+        // Once signed in, return the UserCredential
+        return await FireBases.auth.signInWithCredential(credential);
+      }
+
     } catch (err) {
+      Navigator.of(context).pop();
+      print('${err} loiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
       Dialogs.showSnackBar(context, 'Tài khoản hoặc mật khẩu không đúng');
     }
   }

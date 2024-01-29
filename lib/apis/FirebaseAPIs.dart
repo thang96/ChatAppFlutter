@@ -94,7 +94,6 @@ class FireBases {
   static Future<void> updateProfile(File file) async {
     // Get image file extension
     final ext = file.path.split('.').last;
-    print('$ext --------------------');
 
     // Storage file with path
     final ref = storage.ref().child('profile_avatar').child('/${user.uid}.$ext');
@@ -107,24 +106,13 @@ class FireBases {
     });
 
     // Update image in firebase database
-    final avatar = await ref.getDownloadURL();
+    String avatar = await ref.getDownloadURL();
     print(avatar);
     me.avatar = avatar;
     await firestore.collection('chat_users').doc(me.id).update({
       'avatar': '${avatar}',
     });
 
-    Reference ref = FirebaseStorage.instance
-        .ref()
-        .child('flutter-tests')
-        .child('/some-image.jpg');
-
-    final metadata = SettableMetadata(
-      contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': file.path},
-    );
-
-
-      await ref.putFile(File(file.path), metadata);
+      // await ref.putFile(File(file.path), metadata);
   }
 }

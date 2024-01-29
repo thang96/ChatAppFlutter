@@ -75,7 +75,6 @@ class HomeScreen {
                     onChanged: (value) => _main.filterUser(value),
                   )
                 : Container(
-                    width: 80.dp,
                     child: Row(
                       children: [
                         Text(
@@ -84,7 +83,7 @@ class HomeScreen {
                               fontStyle: FontStyle.normal,
                               fontWeight: FontWeight.bold,
                               color: Colors.deepOrangeAccent,
-                              fontSize: 16),
+                              fontSize: 16.sp),
                         ),
                         Text('Chat',
                             style: TextStyle(
@@ -93,6 +92,7 @@ class HomeScreen {
                       ],
                     ),
                   ),
+
           ),
           body: StreamBuilder(
             stream: FireBases.getAllUser(),
