@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 
 class ChatUserCard extends StatefulWidget {
   final ChatUser user;
-  const ChatUserCard({super.key, required this.user});
+  VoidCallback? onPress;
+  ChatUserCard({super.key, required this.user, this.onPress});
 
   @override
-  State<ChatUserCard> createState() => _ChatUserCardState();
+  State<ChatUserCard> createState() => _ChatUserCardState(onPress!);
 }
 
 class _ChatUserCardState extends State<ChatUserCard> {
+  VoidCallback? onPressButton;
+  _ChatUserCardState(this.onPressButton);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -19,7 +23,7 @@ class _ChatUserCardState extends State<ChatUserCard> {
       margin: EdgeInsets.all(10.dp),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.dp)),
       child: InkWell(
-        onTap: () {},
+        onTap: onPressButton,
         child: ListTile(
           leading: CachedNetworkImage(
             imageUrl: '${widget.user.avatar}',

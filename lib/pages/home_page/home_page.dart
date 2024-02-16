@@ -1,9 +1,11 @@
 import 'package:base_core/presenter/base/base_screen.dart';
 import 'package:chat_app/apis/FirebaseAPIs.dart';
+import 'package:chat_app/models/chat_user.dart';
 import 'package:chat_app/pages/app_navigation/app_router.dart';
 import 'package:chat_app/pages/home_page/home_screen.dart';
 import 'package:chat_app/pages/home_page/home_view_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,13 +20,12 @@ class HomeState extends BaseCreen<HomePage, HomeViewModel> {
 
   @override
   Widget initWidget(BuildContext context) {
-    return HomeScreen(context, this).screen();
+      return HomeScreen(context, this).screen();
   }
 
   @override
   void initState() {
     super.initState();
-    FireBases.getSelfInfo();
   }
 
   void gotoProfile() {
@@ -48,5 +49,10 @@ class HomeState extends BaseCreen<HomePage, HomeViewModel> {
         }
       }
     });
+  }
+
+  void handlerClickUser(ChatUser currentUser) {
+    Get.toNamed(AppRouter.chat_page,
+        arguments: {'currentUserChat': currentUser});
   }
 }

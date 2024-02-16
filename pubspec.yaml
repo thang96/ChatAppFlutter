@@ -41,6 +41,8 @@ dependencies:
   image_picker: ^1.0.7
   # Firebase store for up file
   firebase_storage: ^11.6.0
+  # Check internet connection
+  internet_connection_checker: ^1.0.0+1
 
 dev_dependencies:
   build_runner:

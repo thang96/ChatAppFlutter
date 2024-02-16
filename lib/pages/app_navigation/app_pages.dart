@@ -1,4 +1,4 @@
-import 'package:chat_app/apis/FirebaseAPIs.dart';
+import 'package:chat_app/pages/chat_page/chat_page.dart';
 import 'package:chat_app/pages/home_page/home_page.dart';
 import 'package:chat_app/pages/login_page/login_page.dart';
 import 'package:chat_app/pages/profile_page/profile_page.dart';
@@ -25,5 +25,9 @@ class AppPages {
         name: AppRouter.pro_file,
         page: () => ProFilePage(),
         transition: Transition.circularReveal),
+    GetPage(
+        name: AppRouter.chat_page,
+        page: () => ChatPage(),
+        transition: Transition.zoom),
   ];
 }

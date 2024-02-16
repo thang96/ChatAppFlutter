@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:base_core/presenter/base/base_screen.dart';
 import 'package:chat_app/apis/FirebaseAPIs.dart';
 import 'package:chat_app/pages/app_navigation/app_router.dart';
@@ -17,6 +15,11 @@ class LoginPage extends StatefulWidget {
 
 class LoginState extends BaseCreen<LoginPage, LoginViewModel> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void initViewModel() {
     Get.lazyPut(() => LoginViewModel());
   }
@@ -29,11 +32,12 @@ class LoginState extends BaseCreen<LoginPage, LoginViewModel> {
   void loginWithGoogle() {
     Dialogs.showProgressBar(context);
     _signInWithGoogle().then((user) async {
-      print('$user ---------------------------');
       if (user != null) {
         if (await FireBases.isUserExist()) {
-          Navigator.pop(context);
-          Get.offAndToNamed(AppRouter.home);
+          await FireBases.getSelfInfo().then((value) {
+            Navigator.pop(context);
+            Get.offAndToNamed(AppRouter.home);
+          });
         } else {
           await FireBases.createUser().then((value) {
             Navigator.pop(context);
@@ -64,12 +68,12 @@ class LoginState extends BaseCreen<LoginPage, LoginViewModel> {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-      if(googleUser == null){
+      if (googleUser == null) {
         return null;
-      }else{
+      } else {
         // Obtain the auth details from the request
         final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+            await googleUser?.authentication;
 
         // Create a new credential
         final credential = GoogleAuthProvider.credential(
@@ -80,13 +84,18 @@ class LoginState extends BaseCreen<LoginPage, LoginViewModel> {
         // Once signed in, return the UserCredential
         return await FireBases.auth.signInWithCredential(credential);
       }
-
     } catch (err) {
       Navigator.of(context).pop();
-      print('${err} loiiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
       Dialogs.showSnackBar(context, 'Tài khoản hoặc mật khẩu không đúng');
     }
   }
 
   void onChangedPassword(String str) {}
+
+  @override
+  void dispose() {
+    super.dispose();
+    vm.username.dispose();
+    vm.password.dispose();
+  }
 }

@@ -3,4 +3,5 @@ class AppRouter {
   static const login = '/LoginPage';
   static const home = '/HomePage';
   static const pro_file = '/ProFilePage';
+  static const chat_page = '/ChatPage';
 }

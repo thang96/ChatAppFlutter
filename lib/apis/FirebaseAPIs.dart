@@ -24,7 +24,7 @@ class FireBases {
   static Future<void> getSelfInfo() async {
     await FirebaseFirestore.instance
         .collection('chat_users')
-        .doc(user!.uid)
+        .doc(user.uid)
         .get()
         .then((value) async {
       if (value.exists) {
@@ -45,7 +45,7 @@ class FireBases {
     // Thực hiện truy vấn để kiểm tra sự tồn tại của người dùng trong Firestore
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
         .collection('chat_users')
-        .doc(user!.uid)
+        .doc(user.uid)
         .get();
 
     // Kiểm tra xem dữ liệu người dùng có tồn tại hay không
@@ -67,7 +67,7 @@ class FireBases {
         pushToken: '');
     await FirebaseFirestore.instance
         .collection('chat_users')
-        .doc(user!.uid)
+        .doc(user.uid)
         .set(chatUser.toJson());
   }
 
@@ -96,7 +96,8 @@ class FireBases {
     final ext = file.path.split('.').last;
 
     // Storage file with path
-    final ref = storage.ref().child('profile_avatar').child('/${user.uid}.$ext');
+    final ref =
+        storage.ref().child('profile_avatar').child('/${user.uid}.$ext');
 
     // Uploading image
     await ref
@@ -113,6 +114,6 @@ class FireBases {
       'avatar': '${avatar}',
     });
 
-      // await ref.putFile(File(file.path), metadata);
+    // await ref.putFile(File(file.path), metadata);
   }
 }
