@@ -1,13 +1,14 @@
 class ChatUser {
   late String createdAt;
   late String id;
-  late  String avatar;
+  late String avatar;
   late bool isOnline;
   late String lastActive;
   late String message;
   late String email;
   late String username;
   late String pushToken;
+
   ChatUser({
     required this.createdAt,
     required this.id,

@@ -10,6 +10,11 @@ String numberValidator(String value) {
   return result;
 }
 
+String getFormatDateTime(BuildContext context, String time) {
+  final dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+  return TimeOfDay.fromDateTime(dateTime).format(context);
+}
+
 String formatAmount(String string) {
   String priceIntText = '';
   int counter = 0;
